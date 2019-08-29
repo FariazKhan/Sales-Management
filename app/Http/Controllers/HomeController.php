@@ -18,6 +18,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('verifyRoles');
+        $this->middleware('getRoles');
     }
 
     /**
@@ -27,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-         $admin = Admin::count();
+        $admin = Admin::count();
         $user = User::count();
         $sales = Sales::count();
         $sold = Sold::count();

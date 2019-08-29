@@ -8,9 +8,13 @@
 
 @section('contents')
 <div class="box">
-	<div class="box-header">
-		<h3 class="box-title">View The Products:</h3>
-		<a href="{{ route('sales.create') }}" class="ml-5 btn btn-success float-right"><i class="fa fa-plus"> Add A Sale</i></a>
+	<div class="box-header row">
+		<div class="col-md-5 pull-left">
+			<h3 class="box-title font-play">View The Products:</h3>
+		</div>
+		<div class="col-md-2 pull-right">
+			<button href="{{ route('sales.create') }}" class="btn btn-success btn-block font-play"><i class="fa fa-plus"></i> Add A Sale</button>
+		</div>
 	</div>
 	<!-- /.box-header -->
 	<div class="box-body">
@@ -30,15 +34,23 @@
 			</div>
 		@endif
 		
+		<br>
+		@if($role != 'super_admin')
+			<p>To edit or delete sales, please contact the administrator</p>
+		@endif
+		<br>
 
-		<table id="example1" class="table table-bordered table-striped">
+		<table id="example1" class="table table-bordered table-striped font-muli">
 			<thead>
 				<tr>
 					<th>Sl. No.</th>
 					<th>Name</th>
 					<th>Quantity</th>
 					<th>Sold At</th>
-					<th>Delete</th>
+					@if($role == 'super_admin')
+						<th>Edit</th>
+						<th>Delete</th>
+					@endif
 				</tr>
 			</thead>
 			<tbody>
@@ -47,8 +59,9 @@
 					<td>{{$loop->index + 1}}</td>
 					<td>{{$data->name}}</td>
 					<td>{{$data->quantity}}</td>
-					{{-- <td><a href="{{ route('sales.edit', $data->id) }}"><i class="fa fa-pencil btn btn-info m-auto"></i></a></td> --}}
 					<td>{{$data->created_at}}</td>
+					@if($role == 'super_admin')
+						<td><a href="{{ route('sales.edit', $data->id) }}"><i class="fa fa-pencil btn btn-info m-auto"></i></a></td>
 					<td>
 						<form id="deleteForm{{$data->id}}" method="post" action="{{ route('sales.destroy', $data->id) }}" style="display: none">
 							@csrf
@@ -56,6 +69,7 @@
 						</form>
 						<a onclick="if(confirm('Are you sure you want to delete the sale containing name {{$data->name}}?')){event.preventDefault();document.getElementById('deleteForm{{$data->id}}').submit();}else{event.preventDefault();}"><i class="fa fa-trash btn btn-danger m-auto"></i></a>
 					</td>
+					@endif
 				</tr>
 				@endforeach
 			</tbody>
@@ -65,7 +79,10 @@
 					<th>Name</th>
 					<th>Quantity</th>
 					<th>Sold At</th>
-					<th>Delete</th>
+					@if($role == 'super_admin')
+						<th>Edit</th>
+						<th>Delete</th>
+					@endif
 				</tr>
 			</tfoot>
 		</table>

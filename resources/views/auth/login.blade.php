@@ -49,12 +49,12 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">Log in to your dashboard</p>
+            <p class="login-box-msg font-quicksand">Log in to your dashboard</p>
 
             <form action="{{ route('login') }}" method="post">
                 @csrf
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                    <input type="email" class="font-muli form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 
                     @error('email')
@@ -65,7 +65,7 @@
 
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required autocomplete="current-password">
+                    <input type="password" class="font-muli form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required autocomplete="current-password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     @error('password')
                         <span class="invalid-feedback" role="alert">
@@ -74,16 +74,16 @@
                     @enderror
                 </div>
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-md-5">
                         <div class="checkbox icheck">
                             <label>
-                                <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                <input type="checkbox" name="remember" id="remember" class="font-play" {{ old('remember') ? 'checked' : '' }}> Remember Me
                             </label>
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="social-auth-links text-center">
-                        <button type="submit" class="btn btn-danger btn-block btn-flat">Login</button>
+                    <div class="social-auth-links text-center col-md-7">
+                        <button type="submit" class="btn btn-danger btn-block btn-flat font-play">Login</button>
                     </div>
                     <!-- /.col -->
                 </div>
