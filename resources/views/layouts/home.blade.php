@@ -41,7 +41,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>{{ $admin + 1 }}</h3>
+              <h3>{{ $admin }}</h3>
 
               <p>Salesmen</p>
             </div>
@@ -87,7 +87,7 @@
 	<div class="box-body">
 		Try adding some posts, editing or deleting some categories & tags!
 		<br>
-		Have a good day!
+        Have a good day!
     
 	</div>
 

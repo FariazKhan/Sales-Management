@@ -29,8 +29,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $admin = Admin::count();
-        $user = User::count();
+        $admin = User::where('role', '=', '1')->count();
+        $user = User::where('role', '=', '3')->count();
         $sales = Sales::count();
         $sold = Sold::count();
         return view('layouts.home')->with(compact('admin', 'sales', 'sold', 'user'));

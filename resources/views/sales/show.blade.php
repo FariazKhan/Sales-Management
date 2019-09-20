@@ -12,10 +12,11 @@
 		<div class="col-md-5 pull-left">
 			<h3 class="box-title font-play">View The Products:</h3>
 		</div>
-		<div class="col-md-2 pull-right">
-			<button href="{{ route('sales.create') }}" class="btn btn-success btn-block font-play"><i class="fa fa-plus"></i> Add A Sale</button>
-		</div>
+		<a href="{{ route('sales.create') }}" class="col-md-2 pull-right">
+			<button class="btn btn-success btn-block font-play"><i class="fa fa-plus"></i> Add A Sale</button>
+		</a>
 	</div>
+
 	<!-- /.box-header -->
 	<div class="box-body">
 
@@ -35,7 +36,7 @@
 		@endif
 		
 		<br>
-		@if($role != 'super_admin')
+		@if($role->id != 1)
 			<p>To edit or delete sales, please contact the administrator</p>
 		@endif
 		<br>
@@ -47,7 +48,7 @@
 					<th>Name</th>
 					<th>Quantity</th>
 					<th>Sold At</th>
-					@if($role == 'super_admin')
+					@if($role->id == 1 || $role->id == 2)
 						<th>Edit</th>
 						<th>Delete</th>
 					@endif
@@ -60,8 +61,8 @@
 					<td>{{$data->name}}</td>
 					<td>{{$data->quantity}}</td>
 					<td>{{$data->created_at}}</td>
-					@if($role == 'super_admin')
-						<td><a href="{{ route('sales.edit', $data->id) }}"><i class="fa fa-pencil btn btn-info m-auto"></i></a></td>
+					@if($role->id == 1 || $role->id == 2)
+					<td><a href="{{ route('sales.edit', $data->id) }}"><i class="fa fa-pencil btn btn-info m-auto"></i></a></td>
 					<td>
 						<form id="deleteForm{{$data->id}}" method="post" action="{{ route('sales.destroy', $data->id) }}" style="display: none">
 							@csrf
@@ -79,7 +80,7 @@
 					<th>Name</th>
 					<th>Quantity</th>
 					<th>Sold At</th>
-					@if($role == 'super_admin')
+					@if($role->id == 1 || $role->id == 2)
 						<th>Edit</th>
 						<th>Delete</th>
 					@endif
@@ -89,6 +90,7 @@
 	</div>
 	<!-- /.box-body -->
 </div>
+
 
 @endsection
 

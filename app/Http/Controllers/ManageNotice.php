@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Sales;
 use Illuminate\Http\Request;
+use App\Notice;
 
-class ProductController extends Controller
+class ManageNotice extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,16 +16,16 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('verifyRoles');
-        $this->middleware('verifyAdmin');
+        $this->middleware('verifyRoles', ['except' => 'viewNotice']);
+        $this->middleware('verifyAdmin', ['except' => 'viewNotice']);
         $this->middleware('getRoles');
 
     }
-    
+
     public function index()
     {
-        $dat = Sales::all();
-        return view('product.show')->with(compact('dat'));
+        $dat = Notice::all();
+        return view('notice.show')->with(compact('dat'));
     }
 
     /**
@@ -35,7 +35,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.create');
+        return view('notice.create');
     }
 
     /**
@@ -47,17 +47,22 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:sales',
-            'quantity' => 'required'
+            'title' => 'required',
+            'body' => 'required',
+            'expdate' => 'required'
+            ],
+            [
+                'expdate.required' => 'The expiry date field cannot be empty.'
         ]);
 
-        $injector = new Sales;
-        $injector->name = $request->name;
-        $injector->quantity = $request->quantity;
-        $injector->available = $request->quantity;
+        $injector = new Notice;
+        $injector->title = $request->title;
+        $injector->body = $request->body;
+        $indate =  strtotime($request->expdate);
+        $injector->expdate = date("Y-m-d H:i:s",$indate);
         $injector->save();
+        return redirect(route('notice.index'))->with('insertion', 'success');
 
-        return redirect(route('product.index'))->with('inssuccess', 'success');
     }
 
     /**
@@ -68,7 +73,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-
+        $dat = Notice::find($id);
+        return view('notice.view')->with(compact('dat'));
     }
 
     /**
@@ -79,8 +85,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $data = Sales::find($id);
-        return view('product.edit')->with(compact('data'));
+        $dat = Notice::find($id);
+        return view('notice.edit')->with(compact('dat'));
     }
 
     /**
@@ -93,16 +99,21 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'quantity' => 'required',
-            'available' => 'required'
-        ]);
-        $updator = Sales::find($id);
-        $updator->name = $request->name;
-        $updator->quantity = $request->quantity;
-        $updator->available = $request->available;
-        $updator->save();
-        return redirect(route('product.index'))->with('edtsuccess', 'success');
+            'title' => 'required',
+            'body' => 'required',
+            'expdate' => 'required'
+        ],
+            [
+                'expdate.required' => 'The expiry date field cannot be empty.'
+            ]);
+
+        $injector = Notice::find($id);
+        $injector->title = $request->title;
+        $injector->body = $request->body;
+        $indate =  strtotime($request->expdate);
+        $injector->expdate = date("Y-m-d H:i:s",$indate);
+        $injector->save();
+        return redirect(route('notice.index'))->with('edt', 'success');
     }
 
     /**
@@ -113,7 +124,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        Sales::find($id)->delete();
-        return redirect(route('product.index'))->with('dltsuccess', 'success');
+        //
     }
 }

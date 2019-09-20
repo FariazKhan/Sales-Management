@@ -84,8 +84,14 @@ class ProfileController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required',
+            'image' => 'image|max:5120',
+        ], [
+            'image.image' => 'The image you have uploaded is invalid.',
+            'image.max' => 'The image size must be less than 5 MegaBytes.',
         ]);
         $value = User::find($id - 53995);
+
+
         if ($request->image) {
             @unlink('user/uploads/avatar'.$value->image);
             $originalImage = $request->image;
@@ -96,18 +102,7 @@ class ProfileController extends Controller
         }
         $value->name = $request->name;
         $value->email = $request->email;
-        if ($request->pwd && $request->newpwd && $request->confnewpwd)
-        {
-            if  (Hash::check($request->oldpwd, $value->password) && $request->newpwd == $request->confnewpwd)
-            {
-                $newpwd = Hash::make($request->confnewpwd);
-                $value->password = $newpwd;
-            }
-            else
-            {
-                return back()->with('edtfailed', 'failed');
-            }
-        }
+        $value->password = Hash::make($request->confnewpwd);
         $value->save();
         return back()->with('edtsuccess', 'success');
     }
@@ -118,6 +113,41 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function showResetForm()
+    {
+        return view('profile.reset');
+    }
+    public function resetpwd(Request $request)
+    {
+//        $this->validate($request, [
+//            'oldpwd' => 'required',
+//            'newpwd' => 'required|min:8',
+//            'confnewpwd' => 'required|same:newpwd'
+//        ], [
+//            'oldpwd.required' => 'This field is required.',
+//            'newpwd.required' => 'This field is required.',
+//            'newpwd.invalid' => 'The password format is invalid.',
+//            'confnewpwd.required' => 'This field is required.',
+//            'confnewpwd.same' => 'The passwords doesn\'t match.',
+//        ]);
+//
+//
+//        if (!(Hash::check($request->oldpwd, Auth::user()->password))) {
+//            // The passwords matches
+//            return back()->with("edtfailed", "Your current password does not matches with the password you provided. Please try again.");
+//        }
+//        if(strcmp($request->newpwd, $request->confnewpwd) !== 0){
+//            //Current password and new password are same
+//            return back()->with("edtfailed", "New Password cannot be same as your current password. Please choose a different password.");
+//        }
+        $id = Auth::user()->id;
+        $value = User::find($id)->get()->first();
+        $value->password = Hash::make($request->confnewpwd);
+        $value->save();
+        return redirect(route('profile.index'))->with('edtsuccess', 'success');
+    }
+
     public function destroy($id)
     {
         //

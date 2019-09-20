@@ -4982,32 +4982,32 @@ table.text-center th {
 
 @font-face {
     font-family: anton;
-    src: url('/public/admin/fonts/Anton-Regular.tff');
+    src: url('/public/admin/fonts/Anton-Regular.ttf');
 }
 
 @font-face {
     font-family: muktalight;
-    src: url('/public/admin/fonts/MuktaMalar-Light.tff');
+    src: url('/public/admin/fonts/MuktaMalar-Light.ttf');
 }
 
 @font-face {
     font-family: muktaregular;
-    src: url('/public/admin/fonts/MuktaMalar-Regular.tff');
+    src: url('/public/admin/fonts/MuktaMalar-Regular.ttf');
 }
 
 @font-face {
     font-family: muli;
-    src: url('/public/admin/fonts/Muli-Light.tff');
+    src: url('/public/admin/fonts/Muli-Light.ttf');
 }
 
 @font-face {
     font-family: play;
-    src: url('/public/admin/fonts/Play.tff');
+    src: url('/public/admin/fonts/Play-Regular.ttf');
 }
 
 @font-face {
     font-family: quicksand;
-    src: url('/public/admin/fonts/Quicksand-Light.tff');
+    src: url('/public/admin/fonts/Quicksand-Light.ttf');
 }
 
 .font-play

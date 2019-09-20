@@ -16,16 +16,36 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
-        <li class="dropdown user user-menu">
-            <a class="dropdown-toggle" data-toggle="dropdown">
-                {{ Carbon::now('Asia/Dhaka', '31-01-2017 | 3:45pm') }}
-                {{-- {{ Carbon::createFromFormat('Asia/Dhaka', 'd/m/Y g:ia', '05/21/1975 3:59am') }} --}}
+        <li class="user">
+            <a class="dropdown-toggle" id="time_text"></a>
+        </li>
+        <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                <span class="label label-warning">{{ $countNotice }}</span>
             </a>
+            <ul class="dropdown-menu">
+                <li class="header">There are {{ $countNotice }} notices from admin</li>
+                <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu">
+                        @foreach($notices as $notice)
+                        <li>
+                            <a href="notices/{{$notice->id}}">
+                                <i class="fa fa-users text-aqua"></i> {{ $notice->title }}
+                            </a>
+                        </li>
+                        @endforeach
+
+                    </ul>
+                </li>
+
+            </ul>
         </li>
         <li class="dropdown user user-menu">
             <a class="dropdown-toggle" data-toggle="dropdown">
                 <img src="{{asset('user/uploads/avatar/' . Auth::user()->image)}}" class="user-image" alt="User Image">
-                {{-- <span class="hidden-xs">{{ Auth::user()->name }}</span> --}}
+                <br>
             </a>
             <ul class="dropdown-menu">
 
@@ -33,7 +53,7 @@
                     <img src="{{asset('user/uploads/avatar/' . Auth::user()->image)}}" class="img-circle" alt="User Image">
 
                     <p class="text-capitalize">
-                        {{ Auth::user()->name }} - {{ $role->role_description }}
+                        {{ Auth::user()->name }} - {{ $role->role_desc_formal }}
                         <small></small>
                     </p>
                 </li>
@@ -51,7 +71,7 @@
                         <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"
-                                {{ __('Logout') }} class="btn btn-default btn-flat">Sign out</a>
+                                {{ __('Logout') }} class="btn btn-default btn-flat">Logout</a>
                     </div>
                 </li>
             </ul>
