@@ -35,6 +35,11 @@
 						<p class="text-danger">{{$errors->first('name')}}</p>
 					</div>
 					<div class="form-group">
+					    {!! Form::label('price', 'Price Of Each Unit') !!}
+					    {!! Form::number('price', null, ['class' => 'form-control', 'placeholder' => "Enter the price of each unit..."]) !!}
+						<p class="text-danger">{{$errors->first('name')}}</p>
+					</div>
+					<div class="form-group">
 						{!! Form::label('quantity', 'Purchase quantity') !!}
 						{!! Form::number('quantity', null, ['class' => 'form-control', 'placeholder' => "Enter the number of purchased products..."]) !!}
 						<p class="text-danger">{{$errors->first('quantity')}}</p>

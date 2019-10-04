@@ -76,6 +76,21 @@
             </li>
 
             @endif
+
+            @if($role->id == 1)
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user"></i> <span>Discount Control</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{ route('discount.index') }}"><i class="fa fa-chevron-right"></i> Manage Discount </a></li>
+                </ul>
+            </li>
+
+            @endif
         </ul>
     </section>
     <!-- /.sidebar -->

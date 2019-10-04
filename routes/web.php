@@ -29,4 +29,8 @@ Route::resource('users', "ManageUsers");
 // Notice Controller routes
 Route::resource('notice', "ManageNotice");
 Route::get('notices/{id}', "ViewNotice@show")->name('viewNotice');
+
+// Discount Controller routes
+Route::resource('discount', "ManageDiscount");
+
 ////////////////////////////////////////////////////////

@@ -44,7 +44,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 {{--BloodHound CDN--}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/bloodhound.min.js"></script>
-@yield('customScript')
 <script>
     var div = document.getElementById('time_text');
     function time() {
@@ -61,40 +60,6 @@
     }
     setInterval(time, 1000);
 </script>
-<script>
-    jQuery(document).ready(function($) {
-        // Set the Options for "Bloodhound" suggestion engine
-        var engine = new Bloodhound({
-            remote: {
-                url: '/find?q=%QUERY%',
-                wildcard: '%QUERY%'
-            },
-            datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace
-        });
 
-        $(".search-input").typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        }, {
-            source: engine.ttAdapter(),
 
-            // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
-            name: 'usersList',
-
-            // the key from the array we want to display (name,id,email,etc...)
-            templates: {
-                empty: [
-                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
-                ],
-                header: [
-                    '<div class="list-group search-results-dropdown">'
-                ],
-                suggestion: function (data) {
-                    return '<a href="' + data.profile.username + '" class="list-group-item">' + data.name + '- @' + data.profile.username + '</a>'
-                }
-            }
-        });
-    });
-</script>
+@yield('customScript')

@@ -109,14 +109,14 @@
     <script src="{{asset('admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
     <script>
         $(function () {
-            $('#example1').DataTable()
-            $('#example2').DataTable({
+            $('#example1').DataTable({
                 'paging'      : true,
                 'lengthChange': false,
                 'searching'   : false,
                 'ordering'    : true,
                 'info'        : true,
-                'autoWidth'   : false
+                'autoWidth'   : false,
+                'scrollX'	  : true
             })
         })
     </script>

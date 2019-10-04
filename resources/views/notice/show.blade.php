@@ -60,14 +60,14 @@
 						<td>{{$data->title}}</td>
 						<td>{{$data->created_at}}</td>
 						<td>{{Carbon::parse($data->expdate)->diffForHumans()}}</td>
-						<td><i class="fa fa-eye"></i></td>
-						<td><a href="{{ route('notice.edit', $data->id) }}"><i class="fa fa-pencil btn btn-info m-auto"></i></a></td>
+                        <td><a href="{{ route('viewNotice', $data->id) }}"><i class="fa fa-eye btn btn-info m-auto"></i></a></td>
+						<td><a href="{{ route('notice.edit', $data->id) }}"><i class="fa fa-pencil btn btn-warning m-auto"></i></a></td>
 						<td>
 							<form id="deleteForm{{$data->id}}" method="post" action="{{ route('notice.destroy', $data->id) }}" style="display: none">
 								@csrf
 								@method('delete')
 							</form>
-							<a onclick="if(confirm('Are you sure you want to delete the product containing name {{$data->name}}?')){event.preventDefault();document.getElementById('deleteForm{{$data->id}}').submit();}else{event.preventDefault();}"><i class="fa fa-trash btn btn-danger m-auto"></i></a>
+							<a onclick="if(confirm('Are you sure you want to delete the product containing title \'{{$data->title}}\'?')){event.preventDefault();document.getElementById('deleteForm{{$data->id}}').submit();}else{event.preventDefault();}"><i class="fa fa-trash btn btn-danger m-auto"></i></a>
 						</td>
 					</tr>
 				@endforeach
@@ -96,14 +96,14 @@
 	<script src="{{asset('admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 	<script>
 		$(function () {
-			$('#example1').DataTable()
-			$('#example2').DataTable({
+			$('#example1').DataTable({
 				'paging'      : true,
 				'lengthChange': false,
 				'searching'   : false,
 				'ordering'    : true,
 				'info'        : true,
-				'autoWidth'   : false
+				'autoWidth'   : false,
+				'scrollX'	  : true
 			})
 		})
 	</script>

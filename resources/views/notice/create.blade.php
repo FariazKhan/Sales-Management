@@ -46,9 +46,9 @@
                         <!-- /.input group -->
                     </div>
 
-                    <div class="form-group">
-                        <p>*The notice will expire at 12:00 am in the selected date.</p>
-                    </div>
+{{--                    <div class="form-group">--}}
+{{--                        <p>*The notice will expire at 12:00 am in the selected date.</p>--}}
+{{--                    </div>--}}
 				</div>
 
 			<div class="col-md-12">

@@ -7,6 +7,8 @@ use App\Admin;
 use App\User;
 use App\Sales;
 use App\Sold;
+use App\Notice;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {

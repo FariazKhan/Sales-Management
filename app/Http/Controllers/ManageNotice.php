@@ -124,6 +124,7 @@ class ManageNotice extends Controller
      */
     public function destroy($id)
     {
-        //
+        Notice::find($id)->delete();
+        return back()->with('dltsuccess', 'deleted successfully.');
     }
 }

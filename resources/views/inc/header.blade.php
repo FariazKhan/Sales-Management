@@ -30,9 +30,9 @@
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">
                         @foreach($notices as $notice)
-                        <li>
+                        <li class="bg-dark">
                             <a href="notices/{{$notice->id}}">
-                                <i class="fa fa-users text-aqua"></i> {{ $notice->title }}
+                                <i class="fa fa-bullhorn text-aqua"></i> {{ $notice->title }}
                             </a>
                         </li>
                         @endforeach

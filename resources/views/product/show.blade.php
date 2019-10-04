@@ -8,9 +8,15 @@
 
 @section('contents')
 	<div class="box">
-		<div class="box-header">
-			<h3 class="box-title">View The Products:</h3>
-			<a href="{{ route('product.create') }}" class="ml-5 btn btn-success float-right"><i class="fa fa-plus"> Add Product</i></a>
+		<div class="box-header row">
+			<div class="col-md-5 pull-left">
+				<h3 class="box-title">View The Products:</h3>
+			</div>
+			<div class="col-md-2 pull-right">
+				<a href="{{ route('product.create') }}">
+					<button class="btn btn-success btn-block font-play"><i class="fa fa-plus"></i> Add A Product</button>
+				</a>
+			</div>
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
@@ -42,6 +48,7 @@
 				<tr>
 					<th>Sl. No.</th>
 					<th>Name</th>
+					<th>Price</th>
 					<th>Purchased</th>
 					<th>Available</th>
 					<th>Edit</th>
@@ -53,6 +60,7 @@
 					<tr>
 						<td>{{$loop->index + 1}}</td>
 						<td>{{$data->name}}</td>
+						<td>{{$data->price}}</td>
 						<td>{{$data->quantity}}</td>
 						<td class="avail">{{$data->available}}</td>
 						<td><a href="{{ route('product.edit', $data->id) }}"><i class="fa fa-pencil btn btn-info m-auto"></i></a></td>
@@ -70,6 +78,7 @@
 				<tr>
 					<th>Sl. No.</th>
 					<th>Name</th>
+					<th>Price</th>
 					<th>Purchased</th>
 					<th>Available</th>
 					<th>Edit</th>
@@ -89,14 +98,14 @@
 	<script src="{{asset('admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 	<script>
 		$(function () {
-			$('#example1').DataTable()
-			$('#example2').DataTable({
+			$('#example1').DataTable({
 				'paging'      : true,
 				'lengthChange': false,
 				'searching'   : false,
 				'ordering'    : true,
 				'info'        : true,
-				'autoWidth'   : false
+				'autoWidth'   : false,
+				'scrollX'	  : true
 			})
 		})
 	</script>
