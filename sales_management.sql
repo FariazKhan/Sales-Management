@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 22, 2019 at 11:59 AM
+-- Generation Time: Oct 05, 2019 at 01:24 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.14
 
@@ -45,6 +45,30 @@ CREATE TABLE IF NOT EXISTS `admins` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `discount`
+--
+
+DROP TABLE IF EXISTS `discount`;
+CREATE TABLE IF NOT EXISTS `discount` (
+  `id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `amount` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `expire_date` timestamp NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `discount`
+--
+
+INSERT INTO `discount` (`id`, `title`, `amount`, `product_id`, `expire_date`, `created_at`) VALUES
+(1, 'qw', 1, 1, '2019-10-06 18:00:00', '2019-10-22 18:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -82,16 +106,7 @@ CREATE TABLE IF NOT EXISTS `notice` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `notice`
---
-
-INSERT INTO `notice` (`id`, `title`, `body`, `expdate`, `created_at`, `updated_at`) VALUES
-(1, 'Office closing related-Resolved', 'The office will be closed tomorrow for unavoidable reasons.In publishing and graphic design, lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content. Replacing the actual content with placeholder text allows designers to design the form of the content before the content itself has been produced.In publishing and graphic design, lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content. Replacing the actual content with placeholder text allows designers to design the form of the content before the content itself has been produced.In publishing and graphic design, lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content. Replacing the actual content with placeholder text allows designers to design the form of the content before the content itself has been produced.', '2019-09-24 18:00:00', '2019-09-19 07:21:06', '2019-09-20 03:59:42'),
-(2, 'Salary Delay', 'Because of bank closing, salary will be given the day after tomorrow. Sorry for any inconvenience.', '2019-10-30 18:00:00', '2019-09-20 02:58:31', '2019-09-20 02:58:31'),
-(3, 'Change of daily routine', 'The daily routine will be changed. Please collect it from the office room.', '2019-12-30 18:00:00', '2019-09-20 03:01:36', '2019-09-20 03:01:36');
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
