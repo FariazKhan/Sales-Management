@@ -67,7 +67,7 @@
 								@csrf
 								@method('delete')
 							</form>
-							<a onclick="if(confirm('Are you sure you want to delete the product containing title \'{{$data->title}}\'?')){event.preventDefault();document.getElementById('deleteForm{{$data->id}}').submit();}else{event.preventDefault();}"><i class="fa fa-trash btn btn-danger m-auto"></i></a>
+							<a onclick="if(confirm('Are you sure you want to delete the notice containing title \'{{$data->title}}\'?')){event.preventDefault();document.getElementById('deleteForm{{$data->id}}').submit();}else{event.preventDefault();}"><i class="fa fa-trash btn btn-danger m-auto"></i></a>
 						</td>
 					</tr>
 				@endforeach

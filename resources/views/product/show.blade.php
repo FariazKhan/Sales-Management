@@ -51,6 +51,7 @@
 					<th>Price</th>
 					<th>Purchased</th>
 					<th>Available</th>
+					<th>View</th>
 					<th>Edit</th>
 					<th>Delete</th>
 				</tr>
@@ -63,6 +64,7 @@
 						<td>{{$data->price}}</td>
 						<td>{{$data->quantity}}</td>
 						<td class="avail">{{$data->available}}</td>
+						<td><a href="{{ route('viewProduct', $data->id) }}"><i class="fa fa-eye btn btn-warning m-auto"></i></a></td>
 						<td><a href="{{ route('product.edit', $data->id) }}"><i class="fa fa-pencil btn btn-info m-auto"></i></a></td>
 						<td>
 							<form id="deleteForm{{$data->id}}" method="post" action="{{ route('product.destroy', $data->id) }}" style="display: none">
@@ -81,6 +83,7 @@
 					<th>Price</th>
 					<th>Purchased</th>
 					<th>Available</th>
+					<th>View</th>
 					<th>Edit</th>
 					<th>Delete</th>
 				</tr>

@@ -48,12 +48,16 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:sales',
+            'price' => 'required|numeric',
             'quantity' => 'required'
+        ], [
+            'price.numeric' => 'Please fill this field with numeric values only.'
         ]);
 
         $injector = new Sales;
         $injector->name = $request->name;
         $injector->quantity = $request->quantity;
+        $injector->price = $request->price;
         $injector->available = $request->quantity;
         $injector->save();
 
@@ -68,7 +72,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-
+        $dat = Sales::find($id);
+        return view('product.view')->with(compact('dat'));
     }
 
     /**
@@ -95,11 +100,13 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'quantity' => 'required',
+            'price' => 'required|numeric',
             'available' => 'required'
         ]);
         $updator = Sales::find($id);
         $updator->name = $request->name;
         $updator->quantity = $request->quantity;
+        $updator->price = $request->price;
         $updator->available = $request->available;
         $updator->save();
         return redirect(route('product.index'))->with('edtsuccess', 'success');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Discount;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Sales;
 use DateTime;
@@ -26,7 +27,8 @@ class ManageDiscount extends Controller
 
     public function index()
     {
-        return view('discount.show');
+        $dat = Discount::all();
+        return view('discount.show')->with(compact('dat'));
     }
 
     /**
@@ -36,7 +38,7 @@ class ManageDiscount extends Controller
      */
     public function create()
     {
-        $data = Sales::all();
+        $data = Sales::where("available", ">", 0)->get();
         return view('discount.create')->with(compact('data'));
     }
 
@@ -51,12 +53,13 @@ class ManageDiscount extends Controller
         $this->validate($request, [
             'title'       => 'required',
             'amount'      => 'required|numeric',
-            'product_id'  => 'required',
+            'product_id'  => 'required|numeric',
             'expire_date' => 'required'
         ], [
-            'amount.numeric' => 'This field must be a number.'
+            'amount.numeric' => 'This field must be a number.',
+            'product_id.numeric' => 'This field must be a number.'
         ]);
-        $date = stripcslashes($request->expire_date);
+        $date = strtotime($request->expire_date);
         $disc = Discount::all();
         foreach ($disc as $d)
         {
@@ -67,12 +70,7 @@ class ManageDiscount extends Controller
                 throw new ValidationException($validator);
             }
         }
-        if (!$this->checkIsAValidDate($date))
-        {
-            $validator = Validator::make([], []); // Empty data and rules fields
-            $validator->errors()->add('invalid_date', 'Error: The date format is invalid!');
-            throw new ValidationException($validator);
-        }
+
         foreach ($disc as $d)
         {
             if ($d->product_id == $request->product_id)
@@ -82,6 +80,22 @@ class ManageDiscount extends Controller
                 throw new ValidationException($validator);
             }
         }
+
+        $foundProduct = Sales::find($request->product_id);
+        if ($request->amount > $foundProduct->price)
+        {
+            $validator = Validator::make([], []); // Empty data and rules fields
+            $validator->errors()->add('same_id', 'Error: Invalid discount amount assigned for this product!');
+            throw new ValidationException($validator);
+        }
+
+        $inject = new Discount;
+        $inject->title = $request->title;
+        $inject->amount = $request->amount;
+        $inject->product_id = $request->product_id;
+        $inject->expire_date = date("Y-m-d H:i:s",$date);
+        $inject->save();
+        return redirect(route('discount.index'))->with('inssuccess', 'success');
 
     }
 
@@ -106,9 +120,11 @@ class ManageDiscount extends Controller
      * @param  \App\Discount  $discountController
      * @return \Illuminate\Http\Response
      */
-    public function edit(ManageDiscount $discountController)
+    public function edit(ManageDiscount $discountController, $id)
     {
-        //
+        $dat = Discount::find($id);
+        $data = Sales::where("available", ">", 0)->get();
+        return view('discount.edit')->with(compact('dat', 'data'));
     }
 
     /**
@@ -118,9 +134,51 @@ class ManageDiscount extends Controller
      * @param  \App\Discount  $discountController
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ManageDiscount $discountController)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title'       => 'required',
+            'amount'      => 'required|numeric',
+            'product_id'  => 'required|numeric',
+            'expire_date' => 'required'
+        ], [
+            'expire_date.required' => 'This field is required.',
+            'amount.numeric' => 'This field must be a number.',
+            'product_id.required' => 'This field is required.',
+            'product_id.numeric' => 'Invalid submission process. Please refresh the page and re-submit.'
+        ]);
+        $date = strtotime($request->expire_date);
+        $disc = Discount::all();
+        $foundProductID = Discount::where("product_id", "=" , (string)$request->product_id)->get();
+
+        if (count($foundProductID) == 0)
+        {
+            $validator = Validator::make([], []); // Empty data and rules fields
+            $validator->errors()->add('product_id_changed', 'Invalid submission process. Please refresh the page and re-submit.');
+            throw new ValidationException($validator);
+        }
+
+        $foundProduct = Sales::find($request->product_id);
+        if ($request->amount > $foundProduct->price)
+        {
+            $validator = Validator::make([], []); // Empty data and rules fields
+            $validator->errors()->add('same_id', 'Error: Invalid discount amount assigned for this product.');
+            throw new ValidationException($validator);
+        }
+
+        if ($request->expire_date > Carbon::now())
+        {
+            $validator = Validator::make([], []); // Empty data and rules fields
+            $validator->errors()->add('invaliddate', 'Error: Invalid expire date.');
+            throw new ValidationException($validator);
+        }
+
+        $inject = Discount::find($id);
+        $inject->title = $request->title;
+        $inject->amount = $request->amount;
+        $inject->expire_date = date("Y-m-d H:i:s",$date);
+        $inject->save();
+        return redirect(route('discount.index'))->with('edt', 'success');
     }
 
     /**
@@ -129,8 +187,9 @@ class ManageDiscount extends Controller
      * @param  \App\Discount  $discountController
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ManageDiscount $discountController)
+    public function destroy($id)
     {
-        //
+        Discount::find($id)->delete();
+        return redirect(route('discount.index'))->with('dltsuccess', 'success');
     }
 }

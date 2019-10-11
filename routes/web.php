@@ -22,6 +22,7 @@ Auth::routes();
 //////////////////// Can only by accesed by Super Admins
 // Product register routes
 Route::resource('product', "ProductController");
+Route::get('product/view/{id}', "ProductController@show")->name('viewProduct');
 
 // User Controller routes
 Route::resource('users', "ManageUsers");

@@ -14,49 +14,49 @@
 		<h3 class="box-title">Edit the notice:</h3>
 	</div>
 	<!-- /.box-header -->
-	<div class="box-body">
-		<form action="{{route('notice.update', $dat->id)}}" method="POST">
+	<div class="box-body row">
+		<form action="{{route('discount.update', $dat->id)}}" method="POST">
 			@method('PUT')
 			@csrf
-			<div class="box-body">
-				<div class="col-md-6">
+			<div class="">
+				<div class="col-md-5 col-lg-offset-3">
 					<div class="form-group">
-						<label for="name">Name of the notice:</label>
-						<input type="text" name="title" id="name" class="form-control" placeholder="Edit the title of the notice" value="{{ $dat->title }}">
+						<label for="title">Title of the discount:</label>
+						<input type="text" name="title" id="title" value="{{$dat->title}}" class="form-control" placeholder="Enter the title of the discount">
+						<input type="hidden" value="{{ $dat->product_id }}" name="product_id">
 						<p class="text-danger">{{$errors->first('title')}}</p>
 					</div>
 					<div class="form-group">
-						<label for="name">Body of the notice:</label>
-						<input type="text" name="body" id="body" class="form-control" placeholder="Edit the body of the notice" value="{{ $dat->body }}">
-						<p class="text-danger">{{$errors->first('body')}}</p>
+						<label for="amount">Amount of the discount:</label>
+						<input type="number" name="amount" id="amount" value="{{$dat->amount}}" class="form-control" placeholder="Enter the discount amount">
+						<p class="text-danger">{{$errors->first('amount')}}</p>
+					</div>
+					<div class="form-group">
+						<label for="datepicker">Date when the discount will expire:</label>
+						<div class="input-group date">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input type="text" class="form-control pull-right" id="datepicker" value="{{$dat->expire_date}}" name="expire_date">
+						</div>
+						<p class="text-danger">{{$errors->first('expire_date')}}</p>
+						<!-- /.input group -->
 					</div>
 				</div>
-
-				<div class="col-md-6">
-                    <div class="form-group">
-                        <label for="datepicker">Date when notice will expire:</label>
-
-                        <div class="input-group date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input type="text" class="form-control pull-right" id="datepicker" name="expdate" value="{{ $dat->expdate }}">
-
-                        </div>
-                        <p class="text-danger">{{$errors->first('expdate')}}</p>
-                        <!-- /.input group -->
-                    </div>
-
-{{--                    <div class="form-group">--}}
-{{--                        <p>*The notice will expire at 12:00 am in the selected date.</p>--}}
-{{--                    </div>--}}
+				<div class="col-md-12">
+					<p class="text-danger font-play">{{ $errors->first('product_id') }}</p>
+					<p class="text-danger font-play">{{ $errors->first('product_id_changed') }}</p>
+					<p class="text-danger font-play">{{ $errors->first('same_name') }}</p>
+					<p class="text-danger font-play">{{ $errors->first('invalid_date') }}</p>
+					<p class="text-danger font-play">{{ $errors->first('same_id') }}</p>
+					<p class="text-danger font-play">{{ $errors->first('invalidpwd') }}</p>
+					<p class="text-danger font-play">{{ $errors->first('invaliddate') }}</p>
 				</div>
-
-			<div class="col-md-12">
-				<hr>
-				<button type="submit" class="btn btn-success pull-right">Publish <i class="fa fa-arrow-right"></i></button>
-				<a href="{{ route('notice.index') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Go Back</a>
-			</div>
+				<div class="col-md-12">
+					<hr>
+					<button type="submit" class="btn btn-success pull-right">Update <i class="fa fa-arrow-right"></i></button>
+					<a href="{{ route('discount.index') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Go Back</a>
+				</div>
 			</div>
 
 		</form>
@@ -67,8 +67,10 @@
     <script>
         //Date picker
         $(document).ready(function(){
+			var date = new Date();
+			var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
             $('#datepicker').datepicker({
-                autoclose: true
+				minDate: today
             })
         });
     </script>

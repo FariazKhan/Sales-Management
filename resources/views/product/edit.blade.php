@@ -38,15 +38,23 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						{!! Form::label('name', 'Product Name') !!}
-						{!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => "Enter the product name here..."]) !!}
+						{!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => "Enter the product name here"]) !!}
+						<p class="text-danger font-play">{{ $errors->first('name') }}</p>
 					</div>
 					<div class="form-group">
 						{!! Form::label('quantity', 'Product Quanity') !!}
-						{!! Form::text('quantity', null, ['class' => 'form-control', 'placeholder' => "Enter the number of purchased product..."]) !!}
+						{!! Form::text('quantity', null, ['class' => 'form-control', 'placeholder' => "Enter the number of purchased product"]) !!}
+						<p class="text-danger font-play">{{ $errors->first('quantity') }}</p>
+					</div>
+					<div class="form-group">
+						{!! Form::label('price', 'Price Of Each Unit') !!}
+						{!! Form::number('price', null, ['class' => 'form-control', 'placeholder' => "Enter the price of each unit"]) !!}
+						<p class="text-danger font-play">{{ $errors->first('price') }}</p>
 					</div>
 					<div class="form-group">
 						{!! Form::label('available', 'Product Quanity') !!}
-						{!! Form::text('available', null, ['class' => 'form-control', 'placeholder' => "Enter the number of available products..."]) !!}
+						{!! Form::text('available', null, ['class' => 'form-control', 'placeholder' => "Enter the number of available products"]) !!}
+						<p class="text-danger font-play">{{ $errors->first('available') }}</p>
 					</div>
 				</div>
 				

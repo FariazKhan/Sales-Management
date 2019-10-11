@@ -55,23 +55,23 @@
 				</tr>
 				</thead>
 				<tbody>
-{{--				@foreach($dat as $data)--}}
-{{--					<tr>--}}
-{{--						<td>{{$loop->index + 1}}</td>--}}
-{{--						<td>{{$data->title}}</td>--}}
-{{--						<td>{{$data->created_at}}</td>--}}
-{{--						<td>{{Carbon::parse($data->expdate)->diffForHumans()}}</td>--}}
-{{--                        <td><a href="{{ route('viewNotice', $data->id) }}"><i class="fa fa-eye btn btn-info m-auto"></i></a></td>--}}
-{{--						<td><a href="{{ route('notice.edit', $data->id) }}"><i class="fa fa-pencil btn btn-warning m-auto"></i></a></td>--}}
-{{--						<td>--}}
-{{--							<form id="deleteForm{{$data->id}}" method="post" action="{{ route('notice.destroy', $data->id) }}" style="display: none">--}}
-{{--								@csrf--}}
-{{--								@method('delete')--}}
-{{--							</form>--}}
-{{--							<a onclick="if(confirm('Are you sure you want to delete the product containing title \'{{$data->title}}\'?')){event.preventDefault();document.getElementById('deleteForm{{$data->id}}').submit();}else{event.preventDefault();}"><i class="fa fa-trash btn btn-danger m-auto"></i></a>--}}
-{{--						</td>--}}
-{{--					</tr>--}}
-{{--				@endforeach--}}
+				@foreach($dat as $data)
+					<tr>
+						<td>{{$loop->index + 1}}</td>
+						<td>{{$data->title}}</td>
+						<td>{{$data->created_at}}</td>
+						<td>{{Carbon::parse($data->expdate)->diffForHumans()}}</td>
+                        <td>{{$data->amount}}</td>
+						<td><a href="{{ route('discount.edit', $data->id) }}"><i class="fa fa-pencil btn btn-warning mr-auto"></i></a></td>
+						<td>
+							<form id="deleteForm{{$data->id}}" method="post" action="{{ route('discount.destroy', $data->id) }}" style="display: none">
+								@csrf
+								@method('delete')
+							</form>
+							<a onclick="if(confirm('Are you sure you want to delete the discount containing title \'{{$data->title}}\'?')){event.preventDefault();document.getElementById('deleteForm{{$data->id}}').submit();}else{event.preventDefault();}"><i class="fa fa-trash btn btn-danger m-auto"></i></a>
+						</td>
+					</tr>
+				@endforeach
 				</tbody>
 				<tfoot>
 				<tr>
