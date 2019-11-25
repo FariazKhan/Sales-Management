@@ -2,7 +2,21 @@
 
 @section('customStyles')
 	<link rel="stylesheet" href="{{asset('admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+    <style>
+        .bg-warning
+        {
+            background: #fdf4d5 !important;
+        }
 
+        .warning-box
+        {
+            background: #f1d779 !important;
+            height: 15px !important;
+            width: 15px !important;
+            position: relative;
+            display: inline-block;
+        }
+    </style>
 @endsection
 
 
@@ -58,7 +72,7 @@
 				</thead>
 				<tbody>
 				@foreach($dat as $data)
-					<tr>
+					<tr @if($data->available < 1) class="bg-warning" @endif >
 						<td>{{$loop->index + 1}}</td>
 						<td>{{$data->name}}</td>
 						<td>{{$data->price}}</td>
@@ -88,7 +102,8 @@
 					<th>Delete</th>
 				</tr>
 				</tfoot>
-			</table>
+            </table>
+            <strong> * <span class="warning-box"></span> <small> Colored products are out of stock.</small></strong>
 		</div>
 		<!-- /.box-body -->
 	</div>

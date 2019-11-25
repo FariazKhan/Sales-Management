@@ -10,6 +10,7 @@ Route::resource('/', "HomeController");
 // Sales register routes
 
 Route::resource('sales', "SalesController");
+Route::post('voucher', "SalesController@GenerateVoucher")->name('GenerateVoucher');
 
 // Profile routes
 Route::resource('profile', "ProfileController");

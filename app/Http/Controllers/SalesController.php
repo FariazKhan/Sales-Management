@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Sales;
+use App\Discount;
 use App\Sold;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class SalesController extends Controller
@@ -37,6 +40,7 @@ class SalesController extends Controller
     public function create()
     {
         $data = Sales::where("available", ">", 0)->get();
+        $discount = Discount::where('');
         return view('sales.create')->with(compact('data'));
     }
 
@@ -50,12 +54,17 @@ class SalesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'quantity' => 'required'
+            'quantity' => 'required|numeric',
+            'customers_name' => 'required',
+            'customers_phone' => 'required|numeric',
+            'customers_email' => 'required|email:rfc',
+        ], [
+            'quantity.numeric' => 'Invalid quantity value.',
+            'customers_phone.numeric' => 'Invalid Phone Number.',
+            'customers_email.email' => 'Invalid Email address.'
         ]);
+        $product = Sales::where('name', '=', $request->name)->get()->first();
 
-        $injector = new Sold;
-        $injector->name = $request->name;
-        $injector->quantity = $request->quantity;
         $editor = Sales::where('name', '=', $request->name)->get()->first();
         $available = $editor->available - $request->quantity;
         if ($request->quantity > $editor->available)
@@ -76,10 +85,52 @@ class SalesController extends Controller
             $validator->errors()->add('oos', 'The product is currently out of stock!');
             throw new ValidationException($validator);
         }
-        $editor->available = $available;
-        $injector->save();
-        $editor->save();
 
+        $discount = Discount::where('product_id', '=', $product->id)->get()->first();
+        $price = 0;
+        $discount_amount = 0;
+        if (is_null($discount))
+        {
+            $discount_amount = 0;
+        }
+        else
+        {
+            $discount_amount = $discount->amount;
+        }
+        if (!is_null($discount))
+        {
+            $price = $product->price - $discount->amount;
+        }
+
+
+        $values[] = array('name' => $request->name, 'quantity' => $request->quantity, 'price_per_unit' => $product->price, 'discount_amount' => $discount_amount, 'customers_name' => $request->customers_name,
+            'customers_phone' => $request->customers_phone, 'customers_email' => $request->customers_email, 'order_token' => substr(sha1
+            (Carbon::now()), 0, 7));
+//        var_dump($values);
+        return view('sales.invoice')->with('values', $values);
+    }
+
+
+    public function GenerateVoucher(Request $request)
+    {
+        $this->validate($request, [
+            'json_val' => 'required'
+        ]);
+        $a = json_decode($request->json_val, true);
+        $injector = new Sold;
+        $injector->name = $a[0]['name'];
+        $injector->quantity = $a[0]['quantity'];
+        $injector->customers_name= $a[0]['customers_name'];
+        $injector->customers_phone = $a[0]['customers_phone'];
+        $injector->customers_email = $a[0]['customers_email'];
+        $injector->order_token = $a[0]['order_token'];
+
+        // Calculate the discount if there is any
+        $editor = Sales::where('name', '=', $a[0]['name'])->get()->first();
+        $available = $editor->available - $a[0]['quantity'];
+        $editor->available = $available;
+        $editor->save();
+        $injector->save();
         return redirect(route('sales.index'))->with('inssuccess', 'success');
     }
 

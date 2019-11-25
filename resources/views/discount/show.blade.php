@@ -50,7 +50,7 @@
 					<th>Created At</th>
 					<th>Will Expire In</th>
 					<th>Amount</th>
-					<th>Product To Apply</th>
+					<th>Product ID</th>
 					<th>Actions</th>
 				</tr>
 				</thead>
@@ -62,8 +62,9 @@
 						<td>{{$data->created_at}}</td>
 						<td>{{Carbon::parse($data->expdate)->diffForHumans()}}</td>
                         <td>{{$data->amount}}</td>
-						<td><a href="{{ route('discount.edit', $data->id) }}"><i class="fa fa-pencil btn btn-warning mr-auto"></i></a></td>
+                        <td>{{$data->product_id}}</td>
 						<td>
+							<a href="{{ route('discount.edit', $data->id) }}"><i class="fa fa-pencil btn btn-warning mr-auto"></i></a>
 							<form id="deleteForm{{$data->id}}" method="post" action="{{ route('discount.destroy', $data->id) }}" style="display: none">
 								@csrf
 								@method('delete')

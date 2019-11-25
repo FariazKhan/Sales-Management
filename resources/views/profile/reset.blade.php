@@ -52,7 +52,10 @@
 								<p class="text-danger">{{ $errors->first('confnewpwd') }}</p>
 							</div>
 							<small class="font-play">The * marked fields are required. Either change them or leave them filled.</small>
-						</div>
+                        <div class="form-group">
+                            <p class="text-danger">{{$errors->first('pwderr')}}</p>
+					    </div>
+                        </div>
 
 						<div class="col-md-12">
 							<hr>
@@ -66,7 +69,7 @@
 					</div>
 				</div>
 			</div>
-		
+
 	</div>
 	<!-- /.box-body -->
 </div>

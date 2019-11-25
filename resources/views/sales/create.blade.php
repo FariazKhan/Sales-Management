@@ -36,6 +36,7 @@
 					    	@foreach($data as $value)
 						    	<option value="{{ $value->name }}">{{ $value->name }} ({{ $value->available }})</option>
 					    	@endforeach
+								<option disabled>*Out of stock items are not listed here.</option>
 					    </select>
 						<p class="text-danger">{{$errors->first('name')}}</p>
 					</div>
@@ -47,7 +48,24 @@
 						<p class="text-danger">{{$errors->first('quantityInvalid')}}</p>
 						<p class="text-danger">{{$errors->first('oos')}}</p>
 					</div>
+				</div>
 
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="customer_phone">Name of customer</label>
+						<input type="text" name="customers_name" class="form-control" id="customer_phone" placeholder="Enter the name of the customer">
+						<p class="text-danger">{{$errors->first('customers_name')}}</p>
+					</div>
+					<div class="form-group">
+						<label for="customer_phone">Phone number of customer</label>
+						<input type="number" name="customers_phone" class="form-control" id="customer_phone" placeholder="Enter the cellphone number of the customer">
+						<p class="text-danger">{{$errors->first('customers_phone')}}</p>
+					</div>
+					<div class="form-group">
+						<label for="customer_phone">Email address of customer</label>
+						<input type="email" name="customers_email" class="form-control" id="customer_phone" placeholder="Enter the email address of the customer">
+						<p class="text-danger">{{$errors->first('customers_email')}}</p>
+					</div>
 				</div>
 				
 			<div class="col-md-12">

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {
@@ -91,7 +93,6 @@ class ProfileController extends Controller
         ]);
         $value = User::find($id - 53995);
 
-
         if ($request->image) {
             @unlink('user/uploads/avatar'.$value->image);
             $originalImage = $request->image;
@@ -107,42 +108,35 @@ class ProfileController extends Controller
         return back()->with('edtsuccess', 'success');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
     public function showResetForm()
     {
         return view('profile.reset');
     }
+
     public function resetpwd(Request $request)
     {
-//        $this->validate($request, [
-//            'oldpwd' => 'required',
-//            'newpwd' => 'required|min:8',
-//            'confnewpwd' => 'required|same:newpwd'
-//        ], [
-//            'oldpwd.required' => 'This field is required.',
-//            'newpwd.required' => 'This field is required.',
-//            'newpwd.invalid' => 'The password format is invalid.',
-//            'confnewpwd.required' => 'This field is required.',
-//            'confnewpwd.same' => 'The passwords doesn\'t match.',
-//        ]);
-//
-//
-//        if (!(Hash::check($request->oldpwd, Auth::user()->password))) {
-//            // The passwords matches
-//            return back()->with("edtfailed", "Your current password does not matches with the password you provided. Please try again.");
-//        }
-//        if(strcmp($request->newpwd, $request->confnewpwd) !== 0){
-//            //Current password and new password are same
-//            return back()->with("edtfailed", "New Password cannot be same as your current password. Please choose a different password.");
-//        }
+       $this->validate($request, [
+           'oldpwd' => 'required',
+           'newpwd' => 'required|min:8',
+           'confnewpwd' => 'required|min:8|same:newpwd'
+       ], [
+            'oldpwd.required' => 'This field is required.',
+            'newpwd.required' => 'This field is required.',
+            'newpwd.min' => 'Minimum 8 characters required.',
+            'newpwd.invalid' => 'The password format is invalid.',
+            'confnewpwd.required' => 'This field is required.',
+            'confnewpwd.min' => 'Minimum 8 characters required.',
+            'confnewpwd.same' => 'New passwords doesn\'t match.',
+       ]);
+
         $id = Auth::user()->id;
         $value = User::find($id)->get()->first();
+        if (!Hash::check($request->oldpwd, $value->password)) {
+            $validator = Validator::make([], []); // Empty data and rules fields
+            $validator->errors()->add('pwderr', 'Error: Your old password is incorrect.');
+            throw new ValidationException($validator);
+        }
+        $value->password = Hash::make($request->confnewpwd);
         $value->password = Hash::make($request->confnewpwd);
         $value->save();
         return redirect(route('profile.index'))->with('edtsuccess', 'success');
